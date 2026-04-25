@@ -40,4 +40,5 @@ export async function generateCommitMessages(diff: string): Promise<string[]> {
       await new Promise(r => setTimeout(r, 2000))
     }
   }
+  throw new Error('Failed to generate commit messages after retries')
 }
