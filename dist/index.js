@@ -9,6 +9,7 @@ async function main() {
         const diff = getStagedDiff();
         const messages = await generateCommitMessages(diff);
         const chosen = await promptForCommitMessage(messages);
+        console.log('chosen:', chosen);
         execSync(`git commit -m "${chosen}"`, { stdio: "inherit" });
         console.log(`\nSuccessfully committed: ${chosen}`);
     }
