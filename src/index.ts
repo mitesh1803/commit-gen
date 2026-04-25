@@ -21,7 +21,10 @@ async function ensureApiKey() {
     process.env.GEMINI_API_KEY = key;
     return;
   }
-  const key = await input("Enter your Gemini API key:");
+  const key = (await input("Enter your Gemini API key:")).trim();
+  if (!key) {
+    throw new Error("API key cannot be empty");
+  }
   fs.writeFileSync(configPath, key);
   process.env.GEMINI_API_KEY = key;
 }
@@ -54,7 +57,7 @@ async function main() {
   Setup:
   Get your Gemini API key from https://aistudio.google.com/apikey
   The tool will ask for it on first run.`);
-     process.exit(0);
+      process.exit(0);
     }
     const s1 = createSpinner("Checking API key...").start();
     await ensureApiKey();

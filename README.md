@@ -1,61 +1,98 @@
-# commit-gen
+<div align="center">
+  <h1>✨ Commit-Gen</h1>
+  <p><b>AI-powered git commit message generator using Gemini API</b></p>
+  
+  <p>
+    <a href="https://www.npmjs.com/package/@mitesh_1803/commit-gen">
+      <img src="https://img.shields.io/npm/v/@mitesh_1803/commit-gen.svg?color=blue&style=for-the-badge" alt="npm version" />
+    </a>
+    <img src="https://img.shields.io/node/v/@mitesh_1803/commit-gen.svg?style=for-the-badge" alt="node version" />
+    <img src="https://img.shields.io/badge/License-ISC-green.svg?style=for-the-badge" alt="License" />
+  </p>
+</div>
 
-A CLI tool that automatically generates high-quality git commit messages using Google's Gemini AI based on your staged changes. It adheres to the Conventional Commits format to keep your git history clean and readable.
+<br />
 
-## Features
+Tired of writing boring or repetitive commit messages? **Commit-Gen** analyzes your staged git changes using Google's powerful Gemini AI and generates clean, descriptive, and conventional commit messages. All you have to do is pick your favorite!
 
-- 🧠 Analyzes your staged changes (`git diff --staged`) using the Gemini 2.5 Flash model.
-- 💬 Generates exactly 3 commit message options for you to choose from.
-- 📝 Enforces the [Conventional Commits](https://www.conventionalcommits.org/) format (`feat:`, `fix:`, `chore:`, etc.).
-- 🚀 Interactive CLI prompt allows you to seamlessly select your preferred message.
-- ✅ Automatically commits your staged changes with the selected message.
+---
 
-## Prerequisites
+## 🚀 Features
 
-- Node.js (v16+)
-- Git installed and initialized in your repository
-- A [Google Gemini API Key](https://aistudio.google.com/app/apikey)
+- **🧠 Smart Analysis**: Uses the Gemini AI model to understand the context of your staged git diffs.
+- **🎯 Multiple Options**: Generates several high-quality commit messages for you to choose from.
+- **🕹️ Interactive CLI**: Beautiful spinners and interactive prompts powered by `nanospinner` and `inquirer`.
+- **⚡ Quick & Easy**: Commit changes without ever leaving your terminal.
+- **🔑 Secure Config**: Securely saves your Gemini API key locally for seamless future use.
 
-## Installation
+## 📦 Installation
 
-Install the package globally via npm:
-
-```bash
-npm install -g @mitesh_1803/commit-gen
-```
-
-Alternatively, you can run it directly using `npx`:
+You don't even need to install it! You can run it directly using `npx`:
 
 ```bash
 npx @mitesh_1803/commit-gen
 ```
 
-## Setup
-
-The tool requires a valid Gemini API key to function. Set the `GEMINI_API_KEY` environment variable in your terminal session:
+Alternatively, you can install it globally to use the `commit-gen` command anywhere:
 
 ```bash
-export GEMINI_API_KEY=your_gemini_api_key_here
+npm install -g @mitesh_1803/commit-gen
 ```
 
-*(Tip: You can add this line to your `~/.bashrc` or `~/.zshrc` to make it persistent).*
+## 🛠️ Setup & Usage
 
-## Usage
+### 1. Get an API Key
+Get your free Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey).
 
-1. Make changes to your codebase.
-2. Stage the files you want to commit:
-   ```bash
-   git add <files>
-   # or
-   git add .
-   ```
-3. Run the commit generator:
-   ```bash
-   commit-gen
-   ```
-4. Use your arrow keys to select the best commit message from the generated options, and press Enter.
-5. Your changes are automatically committed!
+### 2. Stage Your Changes
+Stage the files you want to commit using git:
 
-## License
+```bash
+git add .
+```
 
-ISC
+### 3. Run Commit-Gen
+If installed globally:
+```bash
+commit-gen
+```
+*(If using npx: `npx @mitesh_1803/commit-gen`)*
+
+### 4. Follow the Prompts
+- On your **first run**, the CLI will ask for your Gemini API key and securely save it in `~/.commit-gen-config`.
+- It will read your staged changes and generate a list of commit options.
+- Use your **arrow keys** to select the perfect commit message.
+- Press **Enter**, and the tool will automatically commit your changes! 🎉
+
+## 📖 CLI Options
+
+```text
+Usage: commit-gen [options]
+
+Options:
+  --version   Show version number
+  --help      Show the help message
+```
+## ⚙️ How it works
+
+1. Reads your staged changes with `git diff --staged`
+2. Sends the diff to Gemini AI
+3. Returns 3 conventional commit message suggestions
+4. You pick one with arrow keys
+5. Tool runs `git commit` automatically
+
+## 🛠️ Built with
+
+- [Google Gemini AI](https://aistudio.google.com) — commit message generation
+- [Inquirer.js](https://github.com/SBoudrias/Inquirer.js) — interactive prompts
+- [Nanospinner](https://github.com/usmanyunusov/nanospinner) — terminal spinners
+- [TypeScript](https://www.typescriptlang.org) — type safety
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to check out the [issues page](https://github.com/YOUR_USERNAME/YOUR_REPO/issues) if you want to contribute.
+
+## 📄 License
+
+This project is licensed under the [ISC License](LICENSE).
