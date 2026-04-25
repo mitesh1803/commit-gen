@@ -1,0 +1,4 @@
+.env
+src/
+tsconfig.tsbuildinfo
+node_modules
