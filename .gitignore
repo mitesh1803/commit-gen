@@ -3,5 +3,3 @@ dist/
 tsconfig.json
 tsconfig.tsbuildinfo
 node_modules/
-package.json
-package-lock.json
