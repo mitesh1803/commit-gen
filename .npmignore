@@ -2,3 +2,4 @@
 src/
 tsconfig.tsbuildinfo
 node_modules
+tsconfig.json
