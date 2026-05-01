@@ -13,17 +13,21 @@
 
 <br />
 
-Tired of writing boring or repetitive commit messages? **Commit-Gen** analyzes your staged git changes using Google's powerful Gemini AI and generates clean, descriptive, and conventional commit messages. All you have to do is pick your favorite!
+Tired of writing boring commit messages? **Commit-Gen** analyzes your staged
+git changes using a **local Ollama LLM** (with Gemini as fallback) and generates
+clean, conventional commit messages. Pick your favorite with arrow keys!
 
 ---
 
 ## 🚀 Features
 
-- **🧠 Smart Analysis**: Uses the Gemini AI model to understand the context of your staged git diffs.
-- **🎯 Multiple Options**: Generates several high-quality commit messages for you to choose from.
-- **🕹️ Interactive CLI**: Beautiful spinners and interactive prompts powered by `nanospinner` and `inquirer`.
-- **⚡ Quick & Easy**: Commit changes without ever leaving your terminal.
-- **🔑 Secure Config**: Securely saves your Gemini API key locally for seamless future use.
+- 🤖 **Local LLM First**: Uses your own Ollama instance on EC2 for privacy and speed
+- ☁️ **Gemini Fallback**: Automatically falls back to Gemini if Ollama is unavailable
+- 🧠 **Smart Analysis**: Understands context of your staged git diffs
+- 🎯 **Multiple Options**: Generates 3 high-quality commit messages to choose from
+- 🕹️ **Interactive CLI**: Spinners and arrow key prompts via `nanospinner` and `inquirer`
+- ⚡ **Quick & Easy**: Commit without ever leaving your terminal
+- 🔑 **Secure Config**: Saves your Gemini API key locally for future use.
 
 ## 📦 Installation
 
@@ -41,28 +45,70 @@ npm install -g @mitesh_1803/commit-gen
 
 ## 🛠️ Setup & Usage
 
-### 1. Get an API Key
-Get your free Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey).
+### Option A — Using Ollama (Primary, Recommended)
 
-### 2. Stage Your Changes
-Stage the files you want to commit using git:
+Run your own local LLM on any server using Ollama(I have used AWS EC2 Instance).
+
+1. **Install Ollama on your server:**
+
+```bash
+curl -fsSL https://ollama.ai/install.sh | sh
+```
+
+2. **Pull the model:**
+
+```bash
+ollama pull qwen2.5-coder:1.5b
+```
+
+3. **Start Ollama on all interfaces:**
+
+```bash
+OLLAMA_HOST=0.0.0.0 ollama serve
+```
+
+4. **Set your Ollama URL in `.env`:**
+
+---
+
+### Option B — Using Gemini (Fallback)
+
+If Ollama is unavailable, the tool automatically falls back to Gemini.
+
+1. Get your free API key from [Google AI Studio](https://aistudio.google.com/apikey)
+2. On first run the tool will ask for your key and save it to `~/.commit-gen-config`
+
+---
+
+### Running the tool
+
+**Stage your changes:**
 
 ```bash
 git add .
 ```
 
-### 3. Run Commit-Gen
-If installed globally:
+**Run:**
+
 ```bash
 commit-gen
+# or
+npx @mitesh_1803/commit-gen
 ```
-*(If using npx: `npx @mitesh_1803/commit-gen`)*
+
+**What happens:**
+
+- Spinner shows while connecting to Ollama
+- If Ollama fails → automatically switches to Gemini
+- Pick from 3 commit messages with arrow keys
+- Press Enter → committed automatically 🎉
 
 ### 4. Follow the Prompts
-- On your **first run**, the CLI will ask for your Gemini API key and securely save it in `~/.commit-gen-config`.
+
 - It will read your staged changes and generate a list of commit options.
 - Use your **arrow keys** to select the perfect commit message.
 - Press **Enter**, and the tool will automatically commit your changes! 🎉
+- If ollama fail,the CLI will ask for your Gemini API key and securely save it in `~/.commit-gen-config`.
 
 ## 📖 CLI Options
 
@@ -73,25 +119,29 @@ Options:
   --version   Show version number
   --help      Show the help message
 ```
+
 ## ⚙️ How it works
 
 1. Reads your staged changes with `git diff --staged`
-2. Sends the diff to Gemini AI
-3. Returns 3 conventional commit message suggestions
-4. You pick one with arrow keys
-5. Tool runs `git commit` automatically
+2. Tries your Ollama instance first (fast, private, local LLM)
+3. If Ollama unavailable → falls back to Gemini API automatically
+4. Returns 3 conventional commit message suggestions
+5. You pick one with arrow keys
+6. Tool runs `git commit` automatically
 
 ## 🛠️ Built with
 
-- [Google Gemini AI](https://aistudio.google.com) — commit message generation
+- [Ollama](https://ollama.ai) — local LLM runner (primary)
+- [Google Gemini AI](https://aistudio.google.com) — cloud fallback
 - [Inquirer.js](https://github.com/SBoudrias/Inquirer.js) — interactive prompts
 - [Nanospinner](https://github.com/usmanyunusov/nanospinner) — terminal spinners
 - [TypeScript](https://www.typescriptlang.org) — type safety
+-
 
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
-Feel free to check out the [issues page](https://github.com/YOUR_USERNAME/YOUR_REPO/issues) if you want to contribute.
+Feel free to check out the [issues page](https://github.com/mitesh1803/commit-gen/issues)
 
 ## 📄 License
 

@@ -42,7 +42,7 @@ async function main() {
     if (args.includes("--help")) {
       console.log(`Usage: commit-gen [options]
 
-  AI-powered git commit message generator using Gemini.
+  AI-powered git commit message generator .
 
   Options:
   --version   Show version number
@@ -55,6 +55,8 @@ async function main() {
   4. Done! Changes are committed automatically.
 
   Setup:
+  No basic setup required.
+  If ollama model fail:
   Get your Gemini API key from https://aistudio.google.com/apikey
   The tool will ask for it on first run.`);
       process.exit(0);
