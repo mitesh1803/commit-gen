@@ -1,12 +1,14 @@
 import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 
+
 export async function tryOllama(diff: string): Promise<string[]> {
+  const ollamaUrl=process.env.OLLAMA_URL
   const maxRetries = 3;
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const response = await fetch("http://51.21.181.250:11434/api/generate", {
+      const response = await fetch(`${ollamaUrl}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,8 +44,7 @@ export async function tryOllama(diff: string): Promise<string[]> {
 export async function tryGemini(diff: string): Promise<string[]> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    console.log("GEMINI_API_KEY is missing in .env file");
-    process.exit(1);
+    throw new Error("GEMINI_API_KEY is missing in .env file");
   }
   const ai = new GoogleGenAI({ apiKey });
   const maxRetries = 3;
