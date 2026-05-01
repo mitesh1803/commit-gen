@@ -59,24 +59,39 @@ async function main() {
   The tool will ask for it on first run.`);
       process.exit(0);
     }
-    const s1 = createSpinner("Checking API key...").start();
-    await ensureApiKey();
-    s1.success({ text: "API key ready" });
-
-    const s2 = createSpinner("Reading staged changes...").start();
-    const diff = getStagedDiff();
-    s2.success({ text: "Staged changes found" });
-
-    const s3 = createSpinner("Generating commit messages...").start();
-    const messages = await generateCommitMessages(diff);
-    s3.success({ text: "Messages generated" });
-
-    const chosen = await promptForCommitMessage(messages);
-    execSync(`git commit -m "${chosen}"`, { stdio: "inherit" });
-    console.log(`\nSuccessfully committed: ${chosen}`);
+    await modelCall();
   } catch (error) {
     console.error("Error:", error);
     process.exit(1);
   }
+}
+
+async function modelCall( ) {
+  
+    const diff=getStagedDiff()
+    const s1 = createSpinner("Connecting to Ollama...").start()
+try {
+  const messages = await generateCommitMessages(diff)
+  s1.success({ text: "Messages generated via Ollama" })
+  
+  const chosen = await promptForCommitMessage(messages)
+  execSync(`git commit -m "${chosen}"`, { stdio: "inherit" })
+  console.log(`\nSuccessfully committed: ${chosen}`)
+
+} catch (error) {
+  s1.error({ text: "Ollama unavailable, switching to Gemini..." })
+  
+  const s2 = createSpinner("Checking Gemini API key...").start()
+  await ensureApiKey()
+  s2.success({ text: "API key ready" })
+
+  const s3 = createSpinner("Generating commit messages...").start()
+  const messages = await generateCommitMessages(diff)  
+  s3.success({ text: "Messages generated via Gemini" })
+
+  const chosen = await promptForCommitMessage(messages)
+  execSync(`git commit -m "${chosen}"`, { stdio: "inherit" })
+  console.log(`\nSuccessfully committed: ${chosen}`)
+}
 }
 main();
